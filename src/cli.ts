@@ -12,6 +12,7 @@ program
   .requiredOption("--testlist <path>", "Path to testlist JSON")
   .requiredOption("--root <path>", "Project root for test files/imports")
   .requiredOption("--out <path>", "Output directory for report.json")
+  .option("--config <path>", "Path to config JSON")
   .option("--md", "Generate report.md")
   .option("--threshold <number>", "Duplicate threshold (0..1)", Number.parseFloat)
   .option("--ai-verify", "Enable AI similarity verification")
@@ -23,6 +24,7 @@ program
       testlist: path.resolve(options.testlist),
       root: path.resolve(options.root),
       out: path.resolve(options.out),
+      configPath: options.config ? path.resolve(options.config) : undefined,
       md: Boolean(options.md),
       threshold: options.threshold,
       aiVerify: Boolean(options.aiVerify),

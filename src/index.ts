@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { DEFAULT_CONFIG } from "./config/defaults.js";
+import { loadConfig } from "./config/loadConfig.js";
 import { readTestlist } from "./io/readTestlist.js";
 import { parseFileBestEffort } from "./parser/parseFile.js";
 import { buildImportMap } from "./resolver/importResolver.js";
@@ -20,6 +20,7 @@ export interface AnalyzeOptions {
   root: string;
   testlist: string;
   out: string;
+  configPath?: string;
   md?: boolean;
   threshold?: number;
   aiVerify?: boolean;
@@ -37,23 +38,24 @@ function toAnalysisUnit(file: string, args: string[]): AnalysisUnit {
   };
 }
 
-function buildConfig(options: AnalyzeOptions): ToolConfig {
+async function buildConfig(options: AnalyzeOptions): Promise<ToolConfig> {
+  const base = await loadConfig(options.configPath);
   return {
-    ...DEFAULT_CONFIG,
-    duplicateThreshold: options.threshold ?? DEFAULT_CONFIG.duplicateThreshold,
-    mdReport: options.md ?? DEFAULT_CONFIG.mdReport,
+    ...base,
+    duplicateThreshold: options.threshold ?? base.duplicateThreshold,
+    mdReport: options.md ?? base.mdReport,
     aiVerification: {
-      ...DEFAULT_CONFIG.aiVerification,
-      enabled: Boolean(options.aiVerify),
-      endpoint: options.aiEndpoint ?? DEFAULT_CONFIG.aiVerification.endpoint,
-      token: options.aiToken ?? process.env.INTERNAL_AI_TOKEN ?? DEFAULT_CONFIG.aiVerification.token,
-      model: options.aiModel ?? DEFAULT_CONFIG.aiVerification.model
+      ...base.aiVerification,
+      enabled: options.aiVerify ?? base.aiVerification.enabled,
+      endpoint: options.aiEndpoint ?? base.aiVerification.endpoint,
+      token: options.aiToken ?? process.env.INTERNAL_AI_TOKEN ?? base.aiVerification.token,
+      model: options.aiModel ?? base.aiVerification.model
     }
   };
 }
 
 export async function analyze(options: AnalyzeOptions): Promise<FinalReport> {
-  const config = buildConfig(options);
+  const config = await buildConfig(options);
   const list = await readTestlist(options.testlist, options.root);
   const units = list.map((item) => toAnalysisUnit(item.file, item.args));
   const signatures = [];

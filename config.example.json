@@ -1,0 +1,30 @@
+{
+  "duplicateThreshold": 0.82,
+  "nearDuplicateThreshold": 0.7,
+  "mdReport": true,
+  "weights": {
+    "set": 0.35,
+    "sequence": 0.35,
+    "ast": 0.2,
+    "variant": 0.1
+  },
+  "aiVerification": {
+    "enabled": true,
+    "endpoint": "https://internal-ai.company.local/similarity",
+    "token": "REPLACE_WITH_BEARER_TOKEN",
+    "model": "internal-default",
+    "timeoutMs": 20000,
+    "maxPairs": 30,
+    "minCandidateScore": 0.7,
+    "blendWeight": 0.35
+  },
+  "rules": {
+    "missingAwait": { "enabled": true, "severity": "warn" },
+    "randomWithoutSeed": { "enabled": true, "severity": "warn" },
+    "hardcodedSleep": { "enabled": true, "severity": "warn" },
+    "unhandledErrors": { "enabled": true, "severity": "warn" },
+    "modeMismatch": { "enabled": true, "severity": "error" },
+    "unreachableCalls": { "enabled": true, "severity": "info" },
+    "unusedArgs": { "enabled": true, "severity": "info" }
+  }
+}
