@@ -1,0 +1,29 @@
+{
+  "name": "duplicate-scenario-detector",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "scenario-detector": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/cli.ts analyze --help",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.28.4",
+    "@babel/traverse": "^7.28.4",
+    "@babel/types": "^7.28.4",
+    "commander": "^11.1.0",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@types/babel__traverse": "^7.28.0",
+    "@types/node": "^20.17.30",
+    "tsx": "^3.14.0",
+    "typescript": "^5.9.2",
+    "vitest": "^0.34.6"
+  }
+}

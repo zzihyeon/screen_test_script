@@ -1,0 +1,18 @@
+[
+  {
+    "file": "tests/fixtures/project/testA.js",
+    "args": ["--mode=seq", "--seed=1"]
+  },
+  {
+    "file": "tests/fixtures/project/testA.js",
+    "args": ["--mode=random", "--seed=1"]
+  },
+  {
+    "file": "tests/fixtures/project/testB.js",
+    "args": ["--mode=seq", "--seed=1"]
+  },
+  {
+    "file": "tests/fixtures/project/testRandomNoSeed.js",
+    "args": ["--mode=random"]
+  }
+]
